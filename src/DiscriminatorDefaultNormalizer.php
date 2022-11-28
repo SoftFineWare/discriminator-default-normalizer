@@ -35,7 +35,6 @@ class DiscriminatorDefaultNormalizer implements DenormalizerInterface
         if ($discriminator === null) {
             return $this->objectNormalizer->denormalize($data, $type, $format, $context);
         }
-        // TODO add name converter support here
         if ($this->nameConverter) {
             $key = $this->nameConverter->normalize($discriminator->getTypeProperty());
         } else {
