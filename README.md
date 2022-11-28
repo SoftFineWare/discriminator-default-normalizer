@@ -22,7 +22,7 @@ class DefaultRequest extends BaseRequest {}
 ```
 In case of no match json will de denormalized to default class specifing by `DiscriminatorDefault` attribute
 
-
+`DiscriminatorDefault` should not point to a class with `DiscriminatorMap` new child class must be create as `DefaultRequest` above
 
 ## Installation
 This normalizer must have priority -999
