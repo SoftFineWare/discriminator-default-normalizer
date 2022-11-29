@@ -2,4 +2,5 @@
 .idea
 .phpunit.result.cache
 .env
+.output
 secrets.json

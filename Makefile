@@ -11,3 +11,5 @@ docker.build.ci:
 	docker build . --tag ${repoCI}:${version} -f .docker/Dockerfile.ci
 docker.run.psalm:
 	docker-compose run -it cli psalm
+docker.run.phpunit:
+	docker-compose run -it cli vendor/bin/phpunit  --coverage-php .output/coverage.cov

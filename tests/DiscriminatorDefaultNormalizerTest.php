@@ -17,7 +17,7 @@ use Tests\DTO\DefaultRequest;
 use Tests\DTO\NotSupportedMissingDefaultAttribute;
 
 /**
- * @covers DiscriminatorDefaultNormalizer
+ * @covers \Legion112\SerializerDiscriminatorDefault\DiscriminatorDefaultNormalizer
  */
 class DiscriminatorDefaultNormalizerTest extends TestCase
 {
