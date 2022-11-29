@@ -11,3 +11,8 @@ services:
       - ./:/app
       - ~/.composer/cache/:/tmp/cache/
       - ./.docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
+  coverage:
+    image: fearofcode/phpcov:8
+    working_dir: /app
+    volumes:
+      - ./:/app
