@@ -40,7 +40,7 @@ jobs:
     needs: build-image
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/legion112/discriminator-default-normalizer/base:${{github.sha}}
+      image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
       env:
         XDEBUG_MODE: coverage
     steps:
