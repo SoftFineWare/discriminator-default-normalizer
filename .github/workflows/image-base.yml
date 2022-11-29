@@ -1,12 +1,13 @@
 name: Build base Image
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'main'
     paths:
       - '.docker/Dockerfile.base'
 jobs:
-  docker:
+  build.base.image:
     runs-on: ubuntu-latest
     steps:
       -
