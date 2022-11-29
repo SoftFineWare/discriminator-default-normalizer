@@ -11,6 +11,7 @@ docker.build.ci:
 	docker build . --tag ${repoCI}:${version} -f .docker/Dockerfile.ci
 docker.build.psalm:
 	docker build . --tag ${repoPsalm}:${version} -f .docker/Dockerfile.psalm
-
+docker.push.psalm:
+	docker push ${repoPsalm}:${version}
 image.psalm.run:
 	docker run --rm -it ${repoPsalm}:${version}
