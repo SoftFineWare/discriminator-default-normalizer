@@ -62,11 +62,6 @@ jobs:
     defaults:
       run:
         working-directory: /app
-    container:
-      image: alpine/git
-      credentials:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - run: (diff HEAD^1 > .output/patch.txt)
       - uses: actions/upload-artifact@v3
