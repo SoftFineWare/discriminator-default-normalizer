@@ -1,8 +1,10 @@
-name: Base image used for every docker image build
+name: Build base Image
 on:
   push:
     branches:
       - 'main'
+    paths:
+      - '.docker/Dockerfile.base'
 jobs:
   docker:
     runs-on: ubuntu-latest
