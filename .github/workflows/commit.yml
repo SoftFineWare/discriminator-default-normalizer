@@ -39,6 +39,9 @@ jobs:
   run-phpunit:
     needs: build-image
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /app
     container:
       image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
       credentials:
@@ -52,6 +55,9 @@ jobs:
   run-psalm:
     needs: build-image
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /app
     container:
       image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
       credentials:
