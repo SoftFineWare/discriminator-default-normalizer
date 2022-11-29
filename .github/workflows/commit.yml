@@ -58,7 +58,6 @@ jobs:
           path: .output/coverage.cov
 
   git-diff:
-    needs: run-phpunit
     runs-on: ubuntu-latest
     defaults:
       run:
