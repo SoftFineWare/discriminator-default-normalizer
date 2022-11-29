@@ -21,4 +21,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
+          file: .docker/Dockerfile.ci
           tags: discriminator-default-normalizer/ci:${{github.sha}}
