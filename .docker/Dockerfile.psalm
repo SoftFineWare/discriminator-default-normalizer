@@ -1,4 +1,0 @@
-FROM ghcr.io/legion112/discriminator-default-normalizer/ci:0.1
-# this image only serve for runing psalm
-ADD https://github.com/psalm/phar/raw/33723713902e1345904a5c9064ef7848bee0d490/psalm.phar /usr/local/bin/psalm
-RUN chmod 555 /usr/local/bin/psalm
