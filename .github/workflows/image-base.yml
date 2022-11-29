@@ -40,4 +40,4 @@ jobs:
         with:
           push: true
           file: .docker/Dockerfile.base
-          tags: ${{ steps.repo_slug.outputs.result }}/base:0.1
+          tags: ${{ steps.repo_slug.outputs.result }}/base:latest
