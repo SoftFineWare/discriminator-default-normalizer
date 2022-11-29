@@ -43,6 +43,6 @@ jobs:
       image: ghcr.io/legion112/discriminator-defaul-normalizer/base:${{github.sha}}
       env:
         XDEBUG_MODE: coverage
-      steps:
-        - name: RUN phpunit
-          run: (vendor/bin/phpunit)
+    steps:
+      - name: RUN phpunit
+        run: (vendor/bin/phpunit)
