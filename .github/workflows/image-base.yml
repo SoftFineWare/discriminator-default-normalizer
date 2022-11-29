@@ -37,5 +37,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: .docker/Dockerfile.ci
+          file: .docker/Dockerfile.base
           tags: ${{ steps.repo_slug.outputs.result }}/base:0.1
