@@ -7,7 +7,7 @@ on:
     paths:
       - '.docker/Dockerfile.base'
 jobs:
-  build.base.image:
+  build-base-image:
     runs-on: ubuntu-latest
     steps:
       -

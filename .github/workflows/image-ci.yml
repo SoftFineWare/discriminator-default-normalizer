@@ -1,7 +1,7 @@
 name: Test commit
 on: [push]
 jobs:
-  build.image:
+  build-image:
     runs-on: ubuntu-latest
     steps:
       -
@@ -36,7 +36,7 @@ jobs:
           push: true
           file: .docker/Dockerfile.ci
           tags: ${{ steps.repo_slug.outputs.result}}/ci:${{github.sha}}
-  run.phpunit:
+  run-phpunit:
     needs: build.image
     runs-on: ubuntu-latest
     container:
