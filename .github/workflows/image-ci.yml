@@ -1,7 +1,7 @@
-name: Build CI image to be able to run it in tests
+name: Test commit
 on: [push]
 jobs:
-  docker:
+  build.image:
     runs-on: ubuntu-latest
     steps:
       -
@@ -36,3 +36,13 @@ jobs:
           push: true
           file: .docker/Dockerfile.ci
           tags: ${{ steps.repo_slug.outputs.result}}/ci:${{github.sha}}
+  run.phpunit:
+    needs: build.image
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/legion112/discriminator-defaul-normalizer/base:${{github.sha}}
+      env:
+        XDEBUG_MODE: coverage
+      steps:
+        - name: RUN phpunit
+          run: (vendor/bin/phpunit)
