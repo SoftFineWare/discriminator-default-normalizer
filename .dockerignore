@@ -1,0 +1,6 @@
+.idea
+.github
+vendor
+README.md
+docker-compose.yaml
+.phpunit.result.cache

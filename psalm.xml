@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--suppress XmlPathReference -->
+<psalm
+    errorLevel="1"
+    resolveFromConfigFile="true"
+    findUnusedPsalmSuppress="true"
+    findUnusedVariablesAndParams="true"
+    checkForThrowsInGlobalScope="true"
+    checkForThrowsDocblock="true"
+    findUnusedCode="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src" />
+        <directory name="tests" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+        <PossiblyUnusedProperty>
+            <errorLevel type="suppress">
+                <directory name="tests/DTO"/>
+            </errorLevel>
+        </PossiblyUnusedProperty>
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </UnusedClass>
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <directory name="tests/DTO"/>
+            </errorLevel>
+        </PossiblyUnusedMethod>
+        <MissingThrowsDocblock>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </MissingThrowsDocblock>
+    </issueHandlers>
+</psalm>
