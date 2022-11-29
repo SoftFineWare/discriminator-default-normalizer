@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Legion112\SerializerDiscriminatorDefault;
+namespace Tests\DTO;
 
 class ARequest extends BaseRequest
 {

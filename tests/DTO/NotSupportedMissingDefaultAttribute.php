@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Legion112\SerializerDiscriminatorDefault;
+namespace Tests\DTO;
 
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
@@ -11,10 +11,4 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 ])]
 abstract class NotSupportedMissingDefaultAttribute
 {
-    public function __construct(
-        public readonly string $id,
-        public readonly string $type
-    )
-    {
-    }
 }

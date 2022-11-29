@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Legion112\SerializerDiscriminatorDefault;
+namespace Tests;
 
-use Legion112\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
 use Legion112\SerializerDiscriminatorDefault\DiscriminatorDefaultNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -12,6 +11,10 @@ use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Tests\DTO\ARequest;
+use Tests\DTO\BaseRequest;
+use Tests\DTO\DefaultRequest;
+use Tests\DTO\NotSupportedMissingDefaultAttribute;
 
 /**
  * @covers DiscriminatorDefaultNormalizer
@@ -60,6 +63,7 @@ class DiscriminatorDefaultNormalizerTest extends TestCase
 
     /**
      * @dataProvider getSupportCases
+     * @param class-string $type
      */
     public function testItShouldSupportNormilizingClassWithDiscriminatorDefaultAttribute(bool $supported, string $type): void
     {

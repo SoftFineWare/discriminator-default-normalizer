@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Legion112\SerializerDiscriminatorDefault;
 
 use Legion112\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
-use ReflectionClass;
+use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  * This denormalized will try to convert not defined type to default one specified in attribute annotation
  * @see DiscriminatorDefault
  */
-class DiscriminatorDefaultNormalizer implements DenormalizerInterface
+final class DiscriminatorDefaultNormalizer implements DenormalizerInterface
 {
     public function __construct(
         private readonly ClassMetadataFactoryInterface $metadataFactory,
@@ -24,6 +24,8 @@ class DiscriminatorDefaultNormalizer implements DenormalizerInterface
     }
 
     /**
+     * @psalm-suppress MoreSpecificImplementedParamType
+     * @psalm-suppress InternalMethod
      * @param array $data
      * @inheritDoc
      */
@@ -40,6 +42,7 @@ class DiscriminatorDefaultNormalizer implements DenormalizerInterface
         } else {
             $key = $discriminator->getTypeProperty();
         }
+        /** @psalm-suppress MixedArgument */
         if (array_key_exists($data[$key], $discriminator->getTypesMapping()) ){
             return $this->objectNormalizer->denormalize($data, $type, $format, $context);
         }
@@ -51,26 +54,34 @@ class DiscriminatorDefaultNormalizer implements DenormalizerInterface
         return $this->objectNormalizer->denormalize($data, $default->class, $format, $context);
     }
 
+    /**
+     * @inheritDoc
+     * @psalm-suppress InternalMethod
+     */
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
-        if (!$this->metadataFactory->hasMetadataFor($type)){
+        try {
+            if (!$this->metadataFactory->hasMetadataFor($type)) {
+                return false;
+            }
+            if (!$this->metadataFactory->getMetadataFor($type)->getClassDiscriminatorMapping()) {
+                return false;
+            }
+            return $this->hasDefaultAttribute($type);
+        } catch (InvalidArgumentException) {
+            // TODO good to write log here
             return false;
         }
-        if (!$this->metadataFactory->getMetadataFor($type)->getClassDiscriminatorMapping()){
-            return false;
-        }
-        return $this->hasDefaultAttribute($type);
     }
 
+    /**
+     * @psalm-suppress InternalMethod
+     * @throws InvalidArgumentException
+     */
     private function hasDefaultAttribute(string $class):bool
     {
-        $reflectionClass = $this->getReflection($class);
+        $reflectionClass =  $this->metadataFactory->getMetadataFor($class)->getReflectionClass();
         $attributes = $reflectionClass->getAttributes(DiscriminatorDefault::class);
         return !empty($attributes);
-    }
-
-    private function getReflection(string $class):ReflectionClass
-    {
-        return $this->metadataFactory->getMetadataFor($class)->getReflectionClass();
     }
 }
