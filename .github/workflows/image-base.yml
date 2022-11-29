@@ -1,5 +1,8 @@
-name: Build CI image to be able to run it in tests
-on: [push]
+name: Base image used for every docker image build
+on:
+  push:
+    branches:
+      - 'main'
 jobs:
   docker:
     runs-on: ubuntu-latest
