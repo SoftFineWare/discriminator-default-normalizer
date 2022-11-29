@@ -41,6 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
       env:
         XDEBUG_MODE: coverage
     steps:
@@ -51,6 +54,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
       env:
         XDEBUG_MODE: coverage
     steps:
