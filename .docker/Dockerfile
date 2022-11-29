@@ -1,7 +1,4 @@
-FROM php:8.1-cli-alpine
-
-RUN  --mount=type=bind,from=mlocati/php-extension-installer:1.5,source=/usr/bin/install-php-extensions,target=/usr/local/bin/install-php-extensions \
-      install-php-extensions zip xdebug-stable
+FROM ghcr.io/legion112/discriminator-defaul-normalizer/base:latest
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 # TODO finish Pull Request here https://github.com/vimeo/psalm/pull/7701#pullrequestreview-1026024601 and remove add and chmod
