@@ -23,10 +23,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Sanitize repo slug
+        uses: actions/github-script@v6
+        id: repo_slug
+        with:
+          result-encoding: string
+          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
       -
         name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
           file: .docker/Dockerfile.ci
-          tags: discriminator-default-normalizer/ci:${{github.sha}}
+          tags: ${{ steps.repo_slug.outputs.result}}/ci:${{github.sha}}
