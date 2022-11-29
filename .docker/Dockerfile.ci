@@ -1,4 +1,4 @@
-FROM ghcr.io/legion112/discriminator-defaul-normalizer/base:latest as composerdependency
+FROM ghcr.io/legion112/discriminator-default-normalizer/base:latest as composerdependency
 ENV COMPOSER_CACHE_DIR=/tmp/.cache/composer
 COPY composer.lock /app/
 COPY composer.json /app/
