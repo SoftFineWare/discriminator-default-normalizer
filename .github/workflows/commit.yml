@@ -46,3 +46,13 @@ jobs:
     steps:
       - name: RUN phpunit
         run: (vendor/bin/phpunit)
+  run-psalm:
+    needs: build-image
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
+      env:
+        XDEBUG_MODE: coverage
+    steps:
+      - name: RUN psalm
+        run: (psalm)
