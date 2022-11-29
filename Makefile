@@ -1,6 +1,6 @@
-repoBase=ghcr.io/legion112/discriminator-default-normalizer/base
-repoCI=ghcr.io/legion112/discriminator-default-normalizer/ci
-repoPsalm=ghcr.io/legion112/discriminator-default-normalizer/psalm
+repoBase=ghcr.io/legion112/discriminator-defaul-normalizer/base
+repoCI=ghcr.io/legion112/discriminator-defaul-normalizer/ci
+repoPsalm=ghcr.io/legion112/discriminator-defaul-normalizer/psalm
 github.registry.login:
 	cat secrets.json | jq .CR_PAT -r | docker login ghcr.io -u Legion112 --password-stdin
 docker.build.base:
