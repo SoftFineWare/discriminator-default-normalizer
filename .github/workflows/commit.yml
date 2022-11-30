@@ -34,7 +34,6 @@ jobs:
           result-encoding: string
           script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
       - name: Build dependency Image
-        if: env.GIT_DIFF
         uses: docker/build-push-action@v3
         with:
           target: composerdependency
