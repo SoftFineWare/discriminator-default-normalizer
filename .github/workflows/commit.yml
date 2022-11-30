@@ -4,8 +4,8 @@ jobs:
   changed:
     runs-on: ubuntu-latest
     outputs:
-      composer: ${{ steps.code.outputs.filtered_diff }}
-      php: ${{ steps.code.outputs.matched_files }}
+      composer: ${{ steps.code.outputs.matched_files }}
+      php: ${{ steps.code.outputs.filtered_diff }}
       composer-lock-hash: ${{ steps.md5.outputs.composer-lock-hash }}
     steps:
       - uses: actions/checkout@v2
