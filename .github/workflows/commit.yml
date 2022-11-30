@@ -130,9 +130,6 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: phpunit-coverage-report
-      - run: (pwd)
-      - run: (ls -al)
-      - run: (ls -al .output)
       - run: (phpcov patch-coverage --path-prefix /app .output/coverage.cov .output/patch.txt)
 
   run-psalm:
