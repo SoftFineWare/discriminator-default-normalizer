@@ -116,9 +116,6 @@ jobs:
       - run-phpunit
       - git-diff
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /app
     container:
       image: fearofcode/phpcov:8
       volumes:
