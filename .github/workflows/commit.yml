@@ -38,7 +38,7 @@ jobs:
         with:
           result-encoding: string
           script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
-      - name: Build dependency
+      - name: Build dependency Image
         if: env.GIT_DIFF
         uses: docker/build-push-action@v3
         with:
@@ -47,10 +47,11 @@ jobs:
             COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
           cache-from: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
           push: true
+          pull: true
           file: .docker/Dockerfile.ci
           tags: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
       -
-        name: Build and push ci
+        name: Build and push CI Image
         uses: docker/build-push-action@v3
         with:
           build-args: |
