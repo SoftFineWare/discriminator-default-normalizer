@@ -121,6 +121,8 @@ jobs:
         working-directory: /app
     container:
       image: fearofcode/phpcov:8
+      volumes:
+        - ${{github.WORKSPACE}}/.output/:/app/.output
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
