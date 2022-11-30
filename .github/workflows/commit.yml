@@ -81,7 +81,7 @@ jobs:
       run:
         working-directory: /app
     container:
-      image: ${{ needs.repository-name.outputs.slug}}:${{github.sha}}
+      image: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
@@ -137,7 +137,7 @@ jobs:
       run:
         working-directory: /app
     container:
-      image: ${{ needs.repository-name.outputs.slug}}:${{github.sha}}
+      image: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
