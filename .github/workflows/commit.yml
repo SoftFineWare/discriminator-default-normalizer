@@ -40,6 +40,7 @@ jobs:
           build-args: |
             COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
           cache-from: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+          cache-to: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
           push: true
           pull: true
           file: .docker/Dockerfile.ci
