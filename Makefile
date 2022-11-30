@@ -1,14 +1,23 @@
 repoBase=ghcr.io/legion112/discriminator-default-normalizer/base
 repoCI=ghcr.io/legion112/discriminator-default-normalizer/ci
-repoPsalm=ghcr.io/legion112/discriminator-default-normalizer/psalm
+repoCIDependency=ghcr.io/legion112/discriminator-default-normalizer/ci/cache
+
+#composerLockHash := $(shell #echo whatever)
+HASH:=$(shell md5 -q composer.lock)
+
 github.registry.login:
 	cat secrets.json | jq .CR_PAT -r | docker login ghcr.io -u Legion112 --password-stdin
 docker.build.base:
 	docker build . --tag ${repoBase}:${version} -f .docker/Dockerfile.base
 docker.push.base:
 	docker push ${repoBase}:${version}
-docker.build.ci:
-	docker build . --tag ${repoCI}:${version} -f .docker/Dockerfile.ci
+docker.build.ci: docker.build.ci.dependency
+	docker build . --tag ${repoCI}:${version} -f .docker/Dockerfile.ci \
+		--cache-from=${repoCIDependency}:$(HASH)
+docker.build.ci.dependency:
+	docker build . --tag ${repoCIDependency}:$(HASH) -f .docker/Dockerfile.ci \
+		--build-arg COMPOSER_LOCK_HASH=$(HASH) \
+		--cache-from=${repoCIDependency}:$(HASH)
 docker.run.psalm:
 	docker-compose run -it cli psalm
 docker.run.phpunit:

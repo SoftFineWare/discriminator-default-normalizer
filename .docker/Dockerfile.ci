@@ -1,7 +1,6 @@
 FROM ghcr.io/legion112/discriminator-default-normalizer/base:latest as composerdependency
-COPY composer.lock /app/
-COPY composer.json /app/
-
+COPY composer.lock composer.json /app/
+ARG COMPOSER_LOCK_HASH
 RUN   --mount=type=cache,target=$COMPOSER_CACHE_DIR \
       --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
       composer install --no-autoloader

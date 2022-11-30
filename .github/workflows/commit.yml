@@ -23,16 +23,32 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
+      -
+        id: md5
+        run: (printf %s "composer-lock-hash=" >> $GITHUB_OUTPUT && md5 -q composer.lock >> $GITHUB_OUTPUT)
       - name: Sanitize repo slug
         uses: actions/github-script@v6
         id: repo_slug
         with:
           result-encoding: string
           script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
-      -
-        name: Build and push
+      - name: Build dependency
         uses: docker/build-push-action@v3
         with:
+          target: composerdependency
+          build-args: |
+            COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
+          cache-from: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+          push: true
+          file: .docker/Dockerfile.ci
+          tags: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+      -
+        name: Build and push ci
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
+          cache-from: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
           push: true
           file: .docker/Dockerfile.ci
           tags: ${{ steps.repo_slug.outputs.result}}/ci:${{github.sha}}
@@ -63,6 +79,7 @@ jobs:
       run:
         working-directory: /app
     steps:
+      - uses: actions/checkout@v2
       - run: (diff HEAD^1 > .output/patch.txt)
       - uses: actions/upload-artifact@v3
         with:
