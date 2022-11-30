@@ -71,13 +71,13 @@ jobs:
   run-phpunit:
     needs: [build-image, repository-name]
     runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: /app
+    defaults:
+      run:
+        working-directory: /app
     container:
       image: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
-#      volumes:
-#       - ${{github.WORKSPACE}}/.output/:/app/.output
+      volumes:
+       - ${{github.WORKSPACE}}/.output/:/app/.output
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
