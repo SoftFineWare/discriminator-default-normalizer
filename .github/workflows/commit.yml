@@ -1,7 +1,19 @@
 name: Test commit
 on: [push]
 jobs:
+  repository-name:
+    runs-on: ubuntu-latest
+    outputs:
+      slug: ${{ steps.repo_slug.outputs.result }}
+    jobs:
+      - name: Sanitize repo slug
+        uses: actions/github-script@v6
+        id: repo_slug
+        with:
+          result-encoding: string
+          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
   build-image:
+    needs: repository-name
     runs-on: ubuntu-latest
     steps:
       -
@@ -45,30 +57,31 @@ jobs:
           target: composerdependency
           build-args: |
             COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
-          cache-from: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
-          cache-to: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+          cache-to: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
           push: true
           pull: true
           file: .docker/Dockerfile.ci
-          tags: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+          tags: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
       -
         name: Build and push CI Image
         uses: docker/build-push-action@v3
         with:
           build-args: |
             COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
-          cache-from: ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
           push: true
           file: .docker/Dockerfile.ci
-          tags: ${{ steps.repo_slug.outputs.result}}/ci:${{github.sha}}
+          tags: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
+
   run-phpunit:
-    needs: build-image
+    needs: [build-image, repository-name]
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: /app
     container:
-      image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
+      image: ${{ needs.repository-name.outputs.slug}}:${{github.sha}}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
@@ -118,13 +131,13 @@ jobs:
       - run: (patch-coverage --path-prefix /app .output/coverage.cov .output/patch.txt)
 
   run-psalm:
-    needs: build-image
+    needs: [build-image, repository-name]
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: /app
     container:
-      image: ghcr.io/legion112/discriminator-default-normalizer/ci:${{github.sha}}
+      image: ${{ needs.repository-name.outputs.slug}}:${{github.sha}}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
