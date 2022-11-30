@@ -54,7 +54,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
       - name: Build dependency Image
-        if: {{ needs.changed.outputs.composer }}
+        if: ${{ needs.changed.outputs.composer }}
         uses: docker/build-push-action@v3
         with:
           target: composerdependency
