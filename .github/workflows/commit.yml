@@ -33,8 +33,6 @@ jobs:
         with:
           result-encoding: string
           script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
-      - name: Pre load cache image
-        run: (docker pull ${{ steps.repo_slug.outputs.result}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}})
       - name: Build dependency Image
         uses: docker/build-push-action@v3
         with:
