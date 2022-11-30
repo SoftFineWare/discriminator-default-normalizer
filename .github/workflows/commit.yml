@@ -85,11 +85,13 @@ jobs:
         XDEBUG_MODE: coverage
     steps:
       - run: (ls -al)
+      - run: (ls -al .output)
       - run: (pwd)
       - name: RUN phpunit
         run: (cd /app && ls -al && ls .output/ -al && vendor/bin/phpunit --coverage-php .output/coverage.cov)
       - run: (ls -al)
       - run: (pwd)
+      - run: (ls -al .output)
       - uses: pCYSl5EDgo/cat@master
         id: hello
         with:
