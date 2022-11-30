@@ -77,9 +77,9 @@ jobs:
   run-phpunit:
     needs: [build-image, repository-name]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /app
+#    defaults:
+#      run:
+#        working-directory: /app
     container:
       image: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
       volumes:
@@ -91,13 +91,13 @@ jobs:
         XDEBUG_MODE: coverage
     steps:
       - name: RUN phpunit
-        run: (vendor/bin/phpunit --coverage-php .output/coverage.cov)
+        run: (cd /app && vendor/bin/phpunit --coverage-php .output/coverage.cov)
       - run: (ls -al)
       - run: (pwd)
       - uses: pCYSl5EDgo/cat@master
         id: hello
         with:
-          path: .output/coverage.cov
+          path: ${{github.WORKSPACE}}/.output/coverage.cov
       - run: echo $TEXT
         env:
           TEXT: ${{ steps.hello.outputs.text }}
