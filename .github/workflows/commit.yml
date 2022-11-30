@@ -126,6 +126,9 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
+          name: git-diff
+      - uses: actions/download-artifact@v2
+        with:
           name: phpunit-coverage-report
       - run: (pwd)
       - run: (ls -al)
