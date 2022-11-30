@@ -98,7 +98,7 @@ jobs:
         with:
           if-no-files-found: error
           name: phpunit-coverage-report
-          path: .output/coverage.cov
+          path: /app/.output/coverage.cov
 
   git-diff:
     runs-on: ubuntu-latest
