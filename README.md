@@ -1,5 +1,5 @@
 # Symfony Serializer Normalizer For Default DiscriminatorMap
-[![Test commit](https://github.com/SoftFineWare/discriminator-default-normalizer/actions/workflows/commit.yml/badge.svg?branch=main)](https://github.com/SoftFineWare/discriminator-default-normalizer/actions/workflows/commit.yml)
+[![Test commit](https://github.com/SoftFineWare/discriminator-default-normalizer/actions/workflows/commit.yml/badge.svg)](https://github.com/SoftFineWare/discriminator-default-normalizer/actions/workflows/commit.yml)
 ## How to use it
 ```php
 use Legion112\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
