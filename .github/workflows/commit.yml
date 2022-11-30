@@ -85,8 +85,10 @@ jobs:
         XDEBUG_MODE: coverage
     steps:
       - run: (ls -al)
-      - run: (ls -al .output)
-      - run: (pwd)
+      - id: foo
+        uses: softfineware/hello-world-composite-action@v1
+        with:
+          who-to-greet: 'Mona the Octocat'
       - name: RUN phpunit
         run: (cd /app && ls -al && ls .output/ -al && vendor/bin/phpunit --coverage-php .output/coverage.cov)
       - run: (ls -al)
