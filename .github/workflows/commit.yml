@@ -130,7 +130,7 @@ jobs:
       - run: (pwd)
       - run: (ls -al)
       - run: (ls -al .output)
-      - run: (patch-coverage --path-prefix /app .output/coverage.cov .output/patch.txt)
+      - run: (phpcov patch-coverage --path-prefix /app .output/coverage.cov .output/patch.txt)
 
   run-psalm:
     needs: [build-image, repository-name]
