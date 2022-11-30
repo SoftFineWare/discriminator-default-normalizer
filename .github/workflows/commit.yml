@@ -27,11 +27,6 @@ jobs:
       -
         id: md5
         run: (printf %s "composer-lock-hash=" >> $GITHUB_OUTPUT && md5sum composer.lock | awk '{ print $1 }' >> $GITHUB_OUTPUT)
-      - uses: technote-space/get-diff-action@v6
-        with:
-          FILES: |
-            composer.lock
-      - run: echo '${{ env.GIT_DIFF }}'
       - name: Sanitize repo slug
         uses: actions/github-script@v6
         id: repo_slug
