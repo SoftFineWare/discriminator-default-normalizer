@@ -83,7 +83,7 @@ jobs:
     container:
       image: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
       volumes:
-       - /app/.output/:/app/.output
+       - ${{github.WORKSPACE}}/.output/:/app/.output
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
@@ -98,7 +98,7 @@ jobs:
         with:
           if-no-files-found: error
           name: phpunit-coverage-report
-          path: /app/.output/coverage.cov
+          path: .output/coverage.cov
 
   git-diff:
     runs-on: ubuntu-latest
