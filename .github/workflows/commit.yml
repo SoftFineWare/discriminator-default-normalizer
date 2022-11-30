@@ -94,6 +94,13 @@ jobs:
         run: (vendor/bin/phpunit --coverage-php .output/coverage.cov)
       - run: (ls -al)
       - run: (pwd)
+      - uses: pCYSl5EDgo/cat@master
+        id: hello
+        with:
+          path: .output/coverage.cov
+      - run: echo $TEXT
+        env:
+          TEXT: ${{ steps.hello.outputs.text }}
       - uses: actions/upload-artifact@v3
         with:
           if-no-files-found: error
