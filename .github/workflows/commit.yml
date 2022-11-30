@@ -75,7 +75,6 @@ jobs:
 
   git-diff:
     runs-on: ubuntu-latest
-    defaults:
     steps:
       - uses: actions/checkout@v2
       - run: (git diff HEAD^1 > .output/patch.txt)
