@@ -92,10 +92,11 @@ jobs:
     steps:
       - name: RUN phpunit
         run: (vendor/bin/phpunit --coverage-php .output/coverage.cov)
-      - run: (ls)
+      - run: (ls -al)
       - run: (pwd)
       - uses: actions/upload-artifact@v3
         with:
+          if-no-files-found: error
           name: phpunit-coverage-report
           path: .output/coverage.cov
 

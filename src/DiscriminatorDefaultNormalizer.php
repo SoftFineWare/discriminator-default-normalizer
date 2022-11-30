@@ -42,9 +42,6 @@ final class DiscriminatorDefaultNormalizer implements DenormalizerInterface
         } else {
             $key = $discriminator->getTypeProperty();
         }
-        if ($key === 'af') {
-            $a = 2;
-        }
         /** @psalm-suppress MixedArgument */
         if (array_key_exists($data[$key], $discriminator->getTypesMapping()) ){
             return $this->objectNormalizer->denormalize($data, $type, $format, $context);
