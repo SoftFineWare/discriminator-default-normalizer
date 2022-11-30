@@ -76,11 +76,9 @@ jobs:
   git-diff:
     runs-on: ubuntu-latest
     defaults:
-      run:
-        working-directory: /app
     steps:
       - uses: actions/checkout@v2
-      - run: (diff HEAD^1 > .output/patch.txt)
+      - run: (git diff HEAD^1 > .output/patch.txt)
       - uses: actions/upload-artifact@v3
         with:
           name: git-diff
