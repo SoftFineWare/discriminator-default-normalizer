@@ -38,6 +38,7 @@ jobs:
         with:
           FILES: |
             composer.lock
+      - run: echo '${{ env.GIT_DIFF }}' | jq .
       - name: Build dependency Image
         if: steps.composer-lock-changed.outputs.diff
         uses: docker/build-push-action@v3
