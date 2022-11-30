@@ -33,7 +33,13 @@ jobs:
         with:
           result-encoding: string
           script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
+      - uses: technote-space/get-diff-action@v6
+        id: composer-lock-changed
+        with:
+          FILES: |
+            composer.lock
       - name: Build dependency Image
+        if: steps.composer-lock-changed.outputs.diff
         uses: docker/build-push-action@v3
         with:
           target: composerdependency
