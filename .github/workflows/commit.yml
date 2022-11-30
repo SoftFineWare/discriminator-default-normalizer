@@ -119,6 +119,8 @@ jobs:
         with:
           name: git-diff
           path: .output/patch.txt
+      - name: "Check for BC breaks"
+        uses: docker://nyholm/roave-bc-check-ga
 
   run-coverage-check:
     if: ${{ needs.changed.outputs.php }}
