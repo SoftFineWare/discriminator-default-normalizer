@@ -129,6 +129,7 @@ jobs:
           name: phpunit-coverage-report
       - run: (pwd)
       - run: (ls -al)
+      - run: (ls -al .output)
       - run: (patch-coverage --path-prefix /app .output/coverage.cov .output/patch.txt)
 
   run-psalm:
