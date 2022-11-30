@@ -23,5 +23,5 @@ docker.run.psalm:
 docker.run.phpunit:
 	docker-compose run -it cli vendor/bin/phpunit  --coverage-php .output/coverage.cov
 docker.run.coverage.diff: docker.run.phpunit
-	docker-compose run -it git diff HEAD^1 > .output/patch.txt
+	docker-compose run -it git diff HEAD^1 -- "**/*.php"  > .output/patch.txt
 	docker-compose run -it coverage patch-coverage --path-prefix /app .output/coverage.cov .output/patch.txt
