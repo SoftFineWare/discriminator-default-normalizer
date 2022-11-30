@@ -85,6 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: (git status)
       - run: (git diff HEAD^1 > .output/patch.txt)
       - uses: actions/upload-artifact@v3
         with:
