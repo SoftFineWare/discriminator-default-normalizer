@@ -119,7 +119,7 @@ jobs:
     container:
       image: fearofcode/phpcov:8
       volumes:
-        - ${{github.WORKSPACE}}/:${{github.WORKSPACE}}
+        - ${{github.WORKSPACE}}/:${{github.WORKSPACE}}/.output
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
