@@ -1,6 +1,24 @@
 name: Test commit
 on: [push]
 jobs:
+  changed:
+    runs-on: ubuntu-latest
+    outputs:
+      composer: ${{ steps.code.outputs.filtered_diff }}
+      php: ${{ steps.code.outputs.matched_files }}
+      composer-lock-hash: ${{ steps.md5.outputs.composer-lock-hash }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: technote-space/get-diff-action@v6
+        id: code
+        with:
+          PATTERNS: |
+            +(src)/**/*.php
+          FILES: |
+            composer.lock
+      -
+        id: md5
+        run: (printf %s "composer-lock-hash=" >> $GITHUB_OUTPUT && md5sum composer.lock | awk '{ print $1 }' >> $GITHUB_OUTPUT)
   repository-name:
     runs-on: ubuntu-latest
     outputs:
@@ -13,7 +31,7 @@ jobs:
           result-encoding: string
           script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
   build-image:
-    needs: repository-name
+    needs: [ changed, repository-name ]
     runs-on: ubuntu-latest
     steps:
       -
@@ -35,35 +53,26 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
-      - uses: actions/checkout@v2
-      -
-        id: md5
-        run: (printf %s "composer-lock-hash=" >> $GITHUB_OUTPUT && md5sum composer.lock | awk '{ print $1 }' >> $GITHUB_OUTPUT)
-      - uses: technote-space/get-diff-action@v6
-        id: composer-lock-changed
-        with:
-          FILES: |
-            composer.lock
       - name: Build dependency Image
-        if: env.MATCHED_FILES
+        if: {{ needs.changed.outputs.composer }}
         uses: docker/build-push-action@v3
         with:
           target: composerdependency
           build-args: |
-            COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
-          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
-          cache-to: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+            COMPOSER_LOCK_HASH=${{needs.changed.outputs.composer-lock-hash}}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
+          cache-to: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
           push: true
           pull: true
           file: .docker/Dockerfile.ci
-          tags: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+          tags: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
       -
         name: Build and push CI Image
         uses: docker/build-push-action@v3
         with:
           build-args: |
-            COMPOSER_LOCK_HASH=${{steps.md5.outputs.composer-lock-hash}}
-          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{steps.md5.outputs.composer-lock-hash}}
+            COMPOSER_LOCK_HASH=${{needs.changed.outputs.composer-lock-hash}}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
           push: true
           file: .docker/Dockerfile.ci
           tags: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
@@ -112,7 +121,9 @@ jobs:
           path: .output/patch.txt
 
   run-coverage-check:
+    if: ${{ needs.changed.outputs.php }}
     needs:
+      - changed
       - run-phpunit
       - git-diff
     runs-on: ubuntu-latest
