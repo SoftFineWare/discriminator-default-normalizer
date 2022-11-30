@@ -92,6 +92,8 @@ jobs:
     steps:
       - name: RUN phpunit
         run: (vendor/bin/phpunit --coverage-php .output/coverage.cov)
+      - run: (ls)
+      - run: (pwd)
       - uses: actions/upload-artifact@v3
         with:
           name: phpunit-coverage-report
@@ -103,9 +105,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - run: (git status)
-      - run: (ls -al)
-      - run: (pwd)
       - run: (git diff HEAD^1 > .output/patch.txt)
       - uses: actions/upload-artifact@v3
         with:
