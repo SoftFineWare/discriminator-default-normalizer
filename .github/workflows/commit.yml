@@ -38,9 +38,9 @@ jobs:
         with:
           FILES: |
             composer.lock
-      - run: echo '${{ env.GIT_DIFF }}'
+      - run: echo ${{ env.GIT_DIFF }} && echo ${{ env.MATCHED_FILES }}
       - name: Build dependency Image
-        if: steps.composer-lock-changed.outputs.diff
+        if: env.MATCHED_FILES
         uses: docker/build-push-action@v3
         with:
           target: composerdependency
