@@ -82,6 +82,7 @@ jobs:
         with:
           build-args: |
             COMPOSER_LOCK_HASH=${{needs.changed.outputs.composer-lock-hash}}
+            COMPOSER_COMMAND=${{ matrix.command }}
           cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
           push: true
           file: .docker/Dockerfile.ci
