@@ -1,13 +1,14 @@
 FROM ghcr.io/legion112/discriminator-default-normalizer/base:latest as composerdependency
-COPY composer.lock composer.json /app/
+COPY --chown=app:app composer.lock composer.json /app/
 ARG COMPOSER_LOCK_HASH
+ARG COMPOSER_COMMAND="install"
 RUN   --mount=type=cache,target=$COMPOSER_CACHE_DIR \
       --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
-      composer install --no-autoloader
+      composer $COMPOSER_COMMAND --no-autoloader
 # Install dependency
 FROM ghcr.io/legion112/discriminator-default-normalizer/base:latest
 COPY --chown=app:app . /app
-COPY --from=composerdependency --chown=app:app /app/vendor/ /app/vendor/
+COPY --from=composerdependency --chown=app:app /app/vendor /app/vendor
 # Create autoload config
 RUN  --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
       composer dump --optimize

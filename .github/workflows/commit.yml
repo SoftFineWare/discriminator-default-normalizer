@@ -31,6 +31,15 @@ jobs:
           result-encoding: string
           script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
   build-image:
+    strategy:
+      matrix:
+        include:
+          - command: "install"
+            name: "locked"
+          - command: "update --prefer-lowest"
+            name: "lowest"
+          - command: "update"
+            name: "highest"
     needs: [ changed, repository-name ]
     runs-on: ubuntu-latest
     steps:
@@ -60,31 +69,35 @@ jobs:
           target: composerdependency
           build-args: |
             COMPOSER_LOCK_HASH=${{needs.changed.outputs.composer-lock-hash}}
-          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
-          cache-to: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
+            COMPOSER_COMMAND=${{ matrix.command }}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
+          cache-to: ${{ needs.repository-name.outputs.slug}}/ci/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
           push: true
           pull: true
           file: .docker/Dockerfile.ci
-          tags: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
+          tags: ${{ needs.repository-name.outputs.slug}}/ci/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
       -
         name: Build and push CI Image
         uses: docker/build-push-action@v3
         with:
           build-args: |
             COMPOSER_LOCK_HASH=${{needs.changed.outputs.composer-lock-hash}}
-          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency:${{needs.changed.outputs.composer-lock-hash}}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/ci/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
           push: true
           file: .docker/Dockerfile.ci
-          tags: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
+          tags: ${{ needs.repository-name.outputs.slug}}/ci/${{ matrix.name }}:${{github.sha}}
 
   run-phpunit:
     needs: [build-image, repository-name]
+    strategy:
+      matrix:
+        name: ["locked", "lowest", "highest"]
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: /app
     container:
-      image: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
+      image: ${{ needs.repository-name.outputs.slug}}/ci/${{ matrix.name }}:${{github.sha}}
       volumes:
        - ${{github.WORKSPACE}}/.output/:/app/.output
       credentials:
@@ -147,12 +160,15 @@ jobs:
 
   run-psalm:
     needs: [build-image, repository-name]
+    strategy:
+      matrix:
+        name: [ "locked", "lowest", "highest" ]
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: /app
     container:
-      image: ${{ needs.repository-name.outputs.slug}}/ci:${{github.sha}}
+      image: ${{ needs.repository-name.outputs.slug}}/ci/${{ matrix.name }}:${{github.sha}}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}

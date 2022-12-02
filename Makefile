@@ -14,10 +14,21 @@ docker.push.base:
 docker.build.ci: docker.build.ci.dependency
 	docker build . --tag ${repoCI}:${version} -f .docker/Dockerfile.ci \
 		--cache-from=${repoCIDependency}:$(HASH)
-docker.build.ci.dependency:
+docker.build.ci.dependency: docker.build.ci.dependency.locked docker.build.ci.dependency.lowest docker.build.ci.dependency.highest
+docker.build.ci.dependency.locked:
 	docker build . --tag ${repoCIDependency}:$(HASH) -f .docker/Dockerfile.ci \
 		--build-arg COMPOSER_LOCK_HASH=$(HASH) \
-		--cache-from=${repoCIDependency}:$(HASH)
+		--cache-from=${repoCIDependency}/locked:$(HASH)
+docker.build.ci.dependency.lowest:
+	docker build . --tag ${repoCIDependency}:$(HASH) -f .docker/Dockerfile.ci \
+		--build-arg COMPOSER_LOCK_HASH=$(HASH) \
+		--build-arg COMPOSER_COMMAND="update --prefer-lowest" \
+		--cache-from=${repoCIDependency}/lowest:$(HASH)
+docker.build.ci.dependency.highest:
+	docker build . --tag ${repoCIDependency}:$(HASH) -f .docker/Dockerfile.ci \
+		--build-arg COMPOSER_LOCK_HASH=$(HASH) \
+		--build-arg COMPOSER_COMMAND=update \
+		--cache-from=${repoCIDependency}/highest:$(HASH)
 docker.run.psalm:
 	docker-compose run -it cli psalm
 docker.run.phpunit:
