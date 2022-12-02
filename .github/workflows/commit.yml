@@ -114,7 +114,7 @@ jobs:
           TEXT: ${{ steps.hello.outputs.text }}
       -
         uses: actions/upload-artifact@v3
-        if: {{ matrix.name == "locked" }}
+        if: ${{ matrix.name == "locked" }}
         with:
           if-no-files-found: error
           name: phpunit-coverage-report-${{ matrix.name }}
