@@ -109,14 +109,12 @@ jobs:
     steps:
       - name: RUN phpunit
         run: (ls -al && ls .output/ -al && vendor/bin/phpunit --coverage-php .output/coverage.cov)
-      - uses: pCYSl5EDgo/cat@master
-        id: hello
-        with:
-          path: ${{github.WORKSPACE}}/.output/coverage.cov
       - run: echo $TEXT
         env:
           TEXT: ${{ steps.hello.outputs.text }}
-      - uses: actions/upload-artifact@v3
+      -
+        uses: actions/upload-artifact@v3
+        if: {{ matrix.name == "locked" }
         with:
           if-no-files-found: error
           name: phpunit-coverage-report-${{ matrix.name }}
