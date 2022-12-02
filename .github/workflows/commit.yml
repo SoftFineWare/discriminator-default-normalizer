@@ -119,7 +119,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           if-no-files-found: error
-          name: phpunit-coverage-report
+          name: phpunit-coverage-report-${{ matrix.name }}
           path: .output/coverage.cov
 
   git-diff:
@@ -156,7 +156,7 @@ jobs:
           name: git-diff
       - uses: actions/download-artifact@v2
         with:
-          name: phpunit-coverage-report
+          name: phpunit-coverage-report-locked
       - run: (phpcov patch-coverage --path-prefix /app coverage.cov patch.txt)
 
   run-psalm:
