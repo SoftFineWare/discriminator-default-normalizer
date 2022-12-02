@@ -1,5 +1,8 @@
 name: Test commit
-on: [push]
+on:
+  push:
+  schedule:
+    - cron: "0 0 * * 4"
 jobs:
   changed:
     runs-on: ubuntu-latest
@@ -40,6 +43,7 @@ jobs:
             name: "lowest"
           - command: "update"
             name: "highest"
+    if: ${{ matrix.name != 'locked' || !github.event.schedule }}
     needs: [ changed, repository-name ]
     runs-on: ubuntu-latest
     steps:
@@ -90,6 +94,7 @@ jobs:
 
   run-phpunit:
     needs: [build-image, repository-name]
+    if: ${{ matrix.name != 'locked' || !github.event.schedule }}
     strategy:
       matrix:
         name: ["locked", "lowest", "highest"]
@@ -159,6 +164,7 @@ jobs:
 
   run-psalm:
     needs: [build-image, repository-name]
+    if: ${{ matrix.name != 'locked' || !github.event.schedule }}
     strategy:
       matrix:
         name: [ "locked", "lowest", "highest" ]
