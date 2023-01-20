@@ -1,5 +1,5 @@
 {
-    "name": "legion112/discriminator-default-normalizer",
+    "name": "softfineware/discriminator-default-normalizer",
     "description": "Symfony serializer normalizer for normalizing to parent object in case of not found DiscriminatorMap",
     "type": "library",
     "license": "MIT",
