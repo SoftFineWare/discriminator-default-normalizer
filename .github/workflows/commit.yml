@@ -153,8 +153,8 @@ jobs:
       volumes:
         - ${{github.WORKSPACE}}/:${{github.WORKSPACE}}
       credentials:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/download-artifact@v2
         with:
