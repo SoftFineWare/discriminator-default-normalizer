@@ -130,7 +130,6 @@ jobs:
           path: .output/patch.txt
       - name: "Check for BC breaks"
         options: "--env GITHUB_REPOSITORY=${{ github.repository }} --user 1001 --volume ${{ github.workspace }}:/app"
-        run: "/entrypoint.sh"
         uses: docker://nyholm/roave-bc-check-ga
 
   run-coverage-check:
