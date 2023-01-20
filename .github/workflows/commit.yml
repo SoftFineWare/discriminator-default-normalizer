@@ -123,7 +123,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - run: (git diff HEAD^1 > .output/patch.txt)
+      - run: (git diff origin/main src > .output/patch.txt)
       - uses: actions/upload-artifact@v3
         with:
           name: git-diff
@@ -153,8 +153,8 @@ jobs:
       volumes:
         - ${{github.WORKSPACE}}/:${{github.WORKSPACE}}
       credentials:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
       - uses: actions/download-artifact@v2
         with:
