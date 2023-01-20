@@ -100,7 +100,7 @@ jobs:
        - ${{github.WORKSPACE}}/.output/:/app/.output
       credentials:
         username: ${{ github.actor }}
-        password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       env:
         XDEBUG_MODE: coverage
     steps:
@@ -167,7 +167,7 @@ jobs:
       image: ${{ needs.repository-name.outputs.slug}}/${{ matrix.name }}:${{github.sha}}
       credentials:
         username: ${{ github.actor }}
-        password: ${{ secrets.DOCKER_REGISTRY_GITHUB }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       env:
         XDEBUG_MODE: coverage
     steps:
