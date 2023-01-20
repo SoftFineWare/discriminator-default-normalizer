@@ -128,10 +128,19 @@ jobs:
         with:
           name: git-diff
           path: .output/patch.txt
-      - run: (git config --global --add safe.directory /github/workspace)
-      - name: "Check for BC breaks"
-        uses: docker://nyholm/roave-bc-check-ga
 
+  bc-brecks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: "Roave BC Check"
+        uses: "addnab/docker-run-action@v3"
+        with:
+          image: "nyholm/roave-bc-check-ga"
+          options: "--env GITHUB_REPOSITORY=${{ github.repository }} --user 1001 --volume ${{ github.workspace }}:/app"
+          run: "/entrypoint.sh"
   run-coverage-check:
     if: ${{ needs.changed.outputs.php }}
     needs:
