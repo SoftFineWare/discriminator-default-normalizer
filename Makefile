@@ -1,6 +1,6 @@
-repoBase=ghcr.io/legion112/discriminator-default-normalizer/base
-repoCI=ghcr.io/legion112/discriminator-default-normalizer/ci
-repoCIDependency=ghcr.io/legion112/discriminator-default-normalizer/ci/cache
+repoBase=ghcr.io/softfineware/discriminator-default-normalizer/base
+repoCI=ghcr.io/softfineware/discriminator-default-normalizer/ci
+repoCIDependency=ghcr.io/softfineware/discriminator-default-normalizer/ci/cache
 
 #composerLockHash := $(shell #echo whatever)
 HASH:=$(shell md5 -q composer.lock)
