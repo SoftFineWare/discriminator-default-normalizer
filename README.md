@@ -2,7 +2,7 @@
 [![Test commit](https://github.com/SoftFineWare/discriminator-default-normalizer/actions/workflows/commit.yml/badge.svg)](https://github.com/SoftFineWare/discriminator-default-normalizer/actions/workflows/commit.yml)
 ## How to use it
 ```php
-use Legion112\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
+use SoftFineWare\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
 #[DiscriminatorDefault(class: DefaultRequest::class)]

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\DTO;
 
-use Legion112\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
+use SoftFineWare\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
 #[DiscriminatorDefault(class: DefaultRequest::class)]

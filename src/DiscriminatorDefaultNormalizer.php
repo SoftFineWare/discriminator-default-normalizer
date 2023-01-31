@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Legion112\SerializerDiscriminatorDefault;
+namespace SoftFineWare\SerializerDiscriminatorDefault;
 
-use Legion112\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
+use SoftFineWare\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;

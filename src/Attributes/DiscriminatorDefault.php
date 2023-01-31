@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Legion112\SerializerDiscriminatorDefault\Attributes;
+namespace SoftFineWare\SerializerDiscriminatorDefault\Attributes;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
 final class DiscriminatorDefault

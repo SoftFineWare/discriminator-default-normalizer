@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Legion112\SerializerDiscriminatorDefault\DiscriminatorDefaultNormalizer;
+use SoftFineWare\SerializerDiscriminatorDefault\DiscriminatorDefaultNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Mapping\ClassDiscriminatorMapping;
@@ -17,7 +17,7 @@ use Tests\DTO\DefaultRequest;
 use Tests\DTO\NotSupportedMissingDefaultAttribute;
 
 /**
- * @covers \Legion112\SerializerDiscriminatorDefault\DiscriminatorDefaultNormalizer
+ * @covers \SoftFineWare\SerializerDiscriminatorDefault\DiscriminatorDefaultNormalizer
  */
 class DiscriminatorDefaultNormalizerTest extends TestCase
 {
