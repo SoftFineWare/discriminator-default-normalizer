@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Legion112\\SerializerDiscriminatorDefault\\": "src/"
+            "SoftFineWare\\SerializerDiscriminatorDefault\\": "src/"
         }
     },
     "autoload-dev": {

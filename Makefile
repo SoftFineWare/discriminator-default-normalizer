@@ -6,7 +6,7 @@ repoCIDependency=ghcr.io/softfineware/discriminator-default-normalizer/ci/cache
 HASH:=$(shell md5 -q composer.lock)
 
 github.registry.login:
-	cat secrets.json | jq .CR_PAT -r | docker login ghcr.io -u Legion112 --password-stdin
+	cat secrets.json | jq .CR_PAT -r | docker login ghcr.io -u SoftFineWare --password-stdin
 docker.build.base:
 	docker build . --tag ${repoBase}:${version} -f .docker/Dockerfile.base
 docker.push.base:
