@@ -91,19 +91,20 @@ jobs:
       matrix:
         name: ["locked", "lowest", "highest"]
     runs-on: ubuntu-latest
-    container:
-      image: ${{ needs.repository-name.outputs.slug}}/${{ matrix.name }}:${{github.sha}}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-      env:
-        XDEBUG_MODE: coverage
     steps:
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Print current directory
         run: (pwd)
       - name: Print directory files
         run: (ls)
-#        run: (workdir=$PWD && cd /app/ && ls -al && ls .output/ -al && vendor/bin/phpunit --coverage-php $workdir/.output/coverage.cov)
+      - name: Run test
+        run: docker run -it -v $PWD:/app/ -e XDEBUG_MODE=coverage --rm ${{ needs.repository-name.outputs.slug}}/${{ matrix.name }}:${{github.sha}} vendor/bin/phpunit --coverage-php .output/coverage.cov
       -
         uses: actions/upload-artifact@v3
         if: ${{ matrix.name == 'locked' }}
