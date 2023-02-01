@@ -60,7 +60,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build dependency Image
-        if: ${{ needs.changed.outputs.composer }}
+#        if: ${{ needs.changed.outputs.composer }}
         uses: docker/build-push-action@v3
         with:
           target: composerdependency
