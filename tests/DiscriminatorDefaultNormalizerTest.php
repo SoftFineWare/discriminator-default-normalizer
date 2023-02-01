@@ -33,7 +33,7 @@ class DiscriminatorDefaultNormalizerTest extends TestCase
      */
     private ObjectNormalizer $objectNomalizer;
     private CamelCaseToSnakeCaseNameConverter $nameConverter;
-    private LoggerInterface|MockObject $logger;
+    private LoggerInterface&MockObject $logger;
 
     protected function setUp(): void
     {
