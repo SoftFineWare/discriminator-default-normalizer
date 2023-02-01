@@ -7,7 +7,7 @@ RUN  --mount=type=bind,from=mlocati/php-extension-installer:1.5,source=/usr/bin/
 RUN addgroup -S app && adduser -S app -G app
 RUN mkdir -p /app && mkdir -p /app/.output && chown -R app /app && mkdir -p /tmp && chown -R app /tmp
 # TODO finish Pull Request here https://github.com/vimeo/psalm/pull/7701#pullrequestreview-1026024601 and remove add and chmod
-ADD https://github.com/psalm/phar/raw/4.9.2/psalm.phar /usr/local/bin/psalm
+ADD https://github.com/psalm/phar/raw/5.6.0/psalm.phar /usr/local/bin/psalm
 RUN chmod 555 /usr/local/bin/psalm
 USER app
 WORKDIR /app
