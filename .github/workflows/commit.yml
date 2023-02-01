@@ -99,6 +99,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use Docker in rootless mode.
+        uses: ScribeMD/rootless-docker@0.2.2
       - name: Print current directory
         run: (pwd)
       - name: Print directory files
