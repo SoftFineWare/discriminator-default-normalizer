@@ -4,7 +4,8 @@ repoCIDependency=ghcr.io/softfineware/discriminator-default-normalizer/ci/cache
 
 #composerLockHash := $(shell #echo whatever)
 HASH:=$(shell md5 -q composer.lock)
-
+sh:
+	docker compose run --rm -it cli sh
 github.registry.login:
 	cat secrets.json | jq .CR_PAT -r | docker login ghcr.io -u SoftFineWare --password-stdin
 docker.build.base:
