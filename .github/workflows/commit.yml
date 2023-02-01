@@ -67,12 +67,12 @@ jobs:
           build-args: |
             COMPOSER_LOCK_HASH=${{needs.changed.outputs.composer-lock-hash}}
             COMPOSER_COMMAND=${{ matrix.command }}
-          cache-from: ${{ needs.repository-name.outputs.slug}}/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
-          cache-to: ${{ needs.repository-name.outputs.slug}}/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/dependency-${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
+          cache-to: ${{ needs.repository-name.outputs.slug}}/dependency-${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
           push: true
           pull: true
           file: .docker/Dockerfile.ci
-          tags: ${{ needs.repository-name.outputs.slug}}/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
+          tags: ${{ needs.repository-name.outputs.slug}}/dependency-${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
       -
         name: Build and push CI Image
         uses: docker/build-push-action@v3
@@ -80,7 +80,7 @@ jobs:
           build-args: |
             COMPOSER_LOCK_HASH=${{needs.changed.outputs.composer-lock-hash}}
             COMPOSER_COMMAND=${{ matrix.command }}
-          cache-from: ${{ needs.repository-name.outputs.slug}}/dependency/${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
+          cache-from: ${{ needs.repository-name.outputs.slug}}/dependency-${{ matrix.name }}:${{needs.changed.outputs.composer-lock-hash}}
           push: true
           file: .docker/Dockerfile.ci
           tags: ${{ needs.repository-name.outputs.slug}}/${{ matrix.name }}:${{github.sha}}
