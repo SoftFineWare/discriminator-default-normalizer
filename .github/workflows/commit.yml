@@ -162,16 +162,11 @@ jobs:
       matrix:
         name: [ "locked", "lowest", "highest" ]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /app
     container:
       image: ${{ needs.repository-name.outputs.slug}}/${{ matrix.name }}:${{github.sha}}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-      env:
-        XDEBUG_MODE: coverage
     steps:
       - name: RUN psalm
         run: (psalm)
