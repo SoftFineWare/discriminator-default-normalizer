@@ -34,6 +34,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
+          pull: true
           platforms: linux/arm64,linux/arm64/v8
           file: .docker/Dockerfile.base
+          cache-from: ${{ needs.repository-name.outputs.slug}}/base-cache
+          cache-to: ${{ needs.repository-name.outputs.slug}}/base-cache
           tags: ${{ steps.repo_slug.outputs.result }}/base:latest
