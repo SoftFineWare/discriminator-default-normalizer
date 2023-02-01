@@ -12,4 +12,3 @@ COPY --from=composerdependency --chown=app:app /app/vendor /app/vendor
 # Create autoload config
 RUN  --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
       composer dump --optimize
-USER root
