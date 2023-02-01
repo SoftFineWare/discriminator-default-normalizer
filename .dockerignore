@@ -4,5 +4,8 @@ vendor
 README.md
 docker-compose.yaml
 .phpunit.result.cache
+.output
+.attributes
+.gitignore
 secrets.json
 secrets-example.json
