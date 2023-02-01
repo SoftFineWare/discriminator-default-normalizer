@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Psr\Log\LoggerInterface;
 use SoftFineWare\SerializerDiscriminatorDefault\DiscriminatorDefaultNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Mapping\ClassDiscriminatorMapping;
 use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
@@ -31,14 +33,17 @@ class DiscriminatorDefaultNormalizerTest extends TestCase
      */
     private ObjectNormalizer $objectNomalizer;
     private CamelCaseToSnakeCaseNameConverter $nameConverter;
+    private LoggerInterface|MockObject $logger;
 
     protected function setUp(): void
     {
         $this->classMetadataFactory = $this->createMock(ClassMetadataFactoryInterface::class);
         $this->objectNomalizer = $this->createMock(ObjectNormalizer::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
         $this->normalizer = new DiscriminatorDefaultNormalizer(
             $this->classMetadataFactory,
             $this->objectNomalizer,
+            logger: $this->logger,
         );
         $this->nameConverter = new CamelCaseToSnakeCaseNameConverter();
 
@@ -210,5 +215,15 @@ class DiscriminatorDefaultNormalizerTest extends TestCase
                 ...$arguments
             )
         );
+    }
+
+    public function testNormalizerShouldLogExceptionIfAnyAccured():void
+    {
+        $this->classMetadataFactory->method('hasMetadataFor')->willReturn(true);
+        $this->classMetadataFactory->method('getMetadataFor')
+            ->willThrowException($e =new InvalidArgumentException);
+        $this->logger->expects(self::once())->method('error')->with($e);
+        $this->normalizer->supportsDenormalization([], 'ClassWithMissingMetadata', 'json', []);
+
     }
 }

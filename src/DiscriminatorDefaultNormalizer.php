@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace SoftFineWare\SerializerDiscriminatorDefault;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use SoftFineWare\SerializerDiscriminatorDefault\Attributes\DiscriminatorDefault;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
@@ -20,6 +22,7 @@ final class DiscriminatorDefaultNormalizer implements DenormalizerInterface
         private readonly ClassMetadataFactoryInterface $metadataFactory,
         private readonly ObjectNormalizer $objectNormalizer,
         private readonly ?NameConverterInterface $nameConverter = null,
+        private readonly LoggerInterface $logger = new NullLogger(),
     ) {
     }
 
@@ -68,8 +71,8 @@ final class DiscriminatorDefaultNormalizer implements DenormalizerInterface
                 return false;
             }
             return $this->hasDefaultAttribute($type);
-        } catch (InvalidArgumentException) {
-            // TODO good to write log here
+        } catch (InvalidArgumentException $exception) {
+            $this->logger->error($exception);
             return false;
         }
     }
