@@ -6,6 +6,7 @@ on:
       - 'main'
     paths:
       - '.docker/Dockerfile.base'
+      - '.github/workflows/image-base.yml'
 jobs:
   build-base-image:
     runs-on: ubuntu-latest
