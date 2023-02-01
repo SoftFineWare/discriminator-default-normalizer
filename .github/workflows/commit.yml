@@ -99,8 +99,11 @@ jobs:
       env:
         XDEBUG_MODE: coverage
     steps:
-      - name: RUN phpunit
-        run: (workdir=$PWD && cd /app/ && ls -al && ls .output/ -al && vendor/bin/phpunit --coverage-php $workdir/.output/coverage.cov)
+      - name: Print current directory
+        run: (pwd)
+      - name: Print directory files
+        run: (ls)
+#        run: (workdir=$PWD && cd /app/ && ls -al && ls .output/ -al && vendor/bin/phpunit --coverage-php $workdir/.output/coverage.cov)
       -
         uses: actions/upload-artifact@v3
         if: ${{ matrix.name == 'locked' }}
