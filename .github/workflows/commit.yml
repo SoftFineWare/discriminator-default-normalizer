@@ -106,7 +106,7 @@ jobs:
       - name: Print directory files
         run: (ls)
       - name: Run test
-        run: docker run --user 1001 -v $PWD:/app/.output/ -e XDEBUG_MODE=coverage --rm ${{ needs.repository-name.outputs.slug}}/${{ matrix.name }}:${{github.sha}} vendor/bin/phpunit --coverage-php .output/coverage.cov
+        run: docker run --user root -v $PWD:/app/.output/ -e XDEBUG_MODE=coverage --rm ${{ needs.repository-name.outputs.slug}}/${{ matrix.name }}:${{github.sha}} vendor/bin/phpunit --coverage-php .output/coverage.cov
       - name: Print directory files after test
         run: (ls)
       -
