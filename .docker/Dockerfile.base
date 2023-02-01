@@ -9,6 +9,5 @@ RUN mkdir -p /app && mkdir -p /app/.output && chown -R app /app && mkdir -p /tmp
 # TODO finish Pull Request here https://github.com/vimeo/psalm/pull/7701#pullrequestreview-1026024601 and remove add and chmod
 ADD https://github.com/psalm/phar/raw/33723713902e1345904a5c9064ef7848bee0d490/psalm.phar /usr/local/bin/psalm
 RUN chmod 555 /usr/local/bin/psalm
-VOLUME /app/.output
 USER app
 WORKDIR /app
